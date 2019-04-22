@@ -1,18 +1,19 @@
 package net.javainthebox.imageeffector;
 
 import jdk.incubator.vector.IntVector;
-import jdk.incubator.vector.Vector;
+import jdk.incubator.vector.VectorMask;
+import jdk.incubator.vector.VectorSpecies;
 
 public class SoftFocusEffector {
-    private final static IntVector.IntSpecies SPECIES
-	= IntVector.preferredSpecies(); 
+    private final static VectorSpecies<Integer> SPECIES
+	= VectorSpecies.ofPreferred(int.class);
     private final static int KERNEL_SIZE = SPECIES.bitSize()/32;
-    private static final Vector.Mask<Integer> FIRST_TRUE_MASK;
+    private static final VectorMask<Integer> FIRST_TRUE_MASK;
 
     static {
 	boolean[] firstTrueMask = new boolean[SPECIES.length()];
         firstTrueMask[0] = true;
-        FIRST_TRUE_MASK = IntVector.maskFromArray(SPECIES, firstTrueMask, 0);
+        FIRST_TRUE_MASK = VectorMask.fromValues(SPECIES, firstTrueMask);
     }
 
     public static int[] softenLoop(int[] buffer, int width, int height) {
