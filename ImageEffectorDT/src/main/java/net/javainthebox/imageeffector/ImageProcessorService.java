@@ -40,10 +40,7 @@ public class ImageProcessorService {
 			int[] buffer = new int[width * height];
 			reader.getPixels(0, 0, width, height, PixelFormat.getIntArgbInstance(), buffer, 0, width);
 			
-			long s = System.nanoTime();
 			int[] blured = function.apply(buffer, width, height);
-			long e = System.nanoTime();
-//			System.out.println(i + ": " + (e -s));
 			
 			WritableImage copy = new WritableImage(width, height);
 			PixelWriter writer = copy.getPixelWriter();
