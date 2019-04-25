@@ -1,5 +1,6 @@
 package net.javainthebox.imageeffector.service;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -11,17 +12,23 @@ import java.util.List;
 
 public class ImageEffectorService implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
-        System.out.println("HTTP Context: " + t.getHttpContext());
-        System.out.println("Method: " + t.getRequestMethod());
-        System.out.println("Headers: ");
-        t.getRequestHeaders().entrySet().stream().forEach(System.out::println);
+	Headers headers = t.getRequestHeaders();
+
+	int length = Integer.parseInt(headers.get("Content-length").get(0));
+	System.out.println("Length: " + length);
+	String contentType = headers.get("Content-type").get(0);
+	System.out.println("ContentType: " + contentType);
 	
         InputStream is = t.getRequestBody();
-	OutputStream os = t.getResponseBody();
-	long length = is.transferTo(os);
-	System.out.println("Length: " + length);
+	byte[] buffer = is.readAllBytes();
+	System.out.println("Buffer Size: " + buffer.length);
+	is.close();
 
-        t.sendResponseHeaders(200, length);
+	t.getResponseHeaders().add("Content-type", contentType);
+	t.sendResponseHeaders(200, buffer.length);
+	
+	OutputStream os = t.getResponseBody();
+	os.write(buffer);
         os.close();
     }
 
@@ -30,5 +37,4 @@ public class ImageEffectorService implements HttpHandler {
         server.createContext("/", new ImageEffectorService());
         server.start();
     }
-    
 }

@@ -29,5 +29,6 @@ public class ImageEffectorClient {
 
         HttpResponse<Path> response = client.send(request, BodyHandlers.ofFile(Paths.get("result.jpg")));
         System.out.println(response.statusCode());
+	System.out.println(response.headers());
     }
 }
