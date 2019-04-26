@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.List;
+import javax.imageio.ImageIO;
+
 
 public class ImageEffectorService implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
@@ -20,15 +22,21 @@ public class ImageEffectorService implements HttpHandler {
 	System.out.println("ContentType: " + contentType);
 	
         InputStream is = t.getRequestBody();
-	byte[] buffer = is.readAllBytes();
-	System.out.println("Buffer Size: " + buffer.length);
+	//	byte[] buffer = is.readAllBytes();
+	//	System.out.println("Buffer Size: " + buffer.length);
+
+	java.util.Arrays.stream(ImageIO.getReaderFormatNames()).forEach(System.out::println);
+	var image = ImageIO.read(is);
+	System.out.println("W: " + image.getWidth() + " H: " + image.getHeight());
 	is.close();
 
 	t.getResponseHeaders().add("Content-type", contentType);
-	t.sendResponseHeaders(200, buffer.length);
+	t.sendResponseHeaders(200, length);
 	
 	OutputStream os = t.getResponseBody();
-	os.write(buffer);
+	ImageIO.write(image, "jpg", os);
+	
+	//	os.write(buffer);
         os.close();
     }
 
