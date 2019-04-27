@@ -21,6 +21,9 @@ public class ImageEffectorService implements HttpHandler {
 	Headers headers = t.getRequestHeaders();
 	var contentType = headers.get("Content-type").get(0);
 	var formatType = contentType.substring(contentType.lastIndexOf('/')+1);
+	System.out.println("ContentType: " + contentType);
+	System.out.println("FormatType: " + formatType);
+	
 	
         var is = t.getRequestBody();
 	BufferedImage image = ImageIO.read(is);
@@ -41,7 +44,7 @@ public class ImageEffectorService implements HttpHandler {
 						       BufferedImage.TYPE_INT_ARGB);
 	appliedImage.setRGB(0, 0, width, height, appliedPixels, 0, width);
 	System.out.println("Applied: " + appliedImage);
-	
+
 	var baos = new ByteArrayOutputStream();
 	ImageIO.write(appliedImage, formatType, baos);
 	var buffer = baos.toByteArray();
