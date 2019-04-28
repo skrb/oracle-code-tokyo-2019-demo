@@ -9,11 +9,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ImageEffectorClient {
-
     public static void main(String[] args) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
@@ -23,11 +23,11 @@ public class ImageEffectorClient {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8000"))
-                .header("Content-Type", "image/jpg")
-                .POST(BodyPublishers.ofFile(Paths.get("test.jpg")))
+                .header("Content-Type", "image/png")
+                .POST(BodyPublishers.ofFile(Paths.get("test.png")))
                 .build();
 
-        HttpResponse<Path> response = client.send(request, BodyHandlers.ofFile(Paths.get("result.jpg")));
+        HttpResponse<Path> response = client.send(request, BodyHandlers.ofFile(Paths.get("result.png")));
         System.out.println(response.statusCode());
 	System.out.println(response.headers());
     }

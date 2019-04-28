@@ -24,7 +24,6 @@ public class ImageEffectorService implements HttpHandler {
 	System.out.println("ContentType: " + contentType);
 	System.out.println("FormatType: " + formatType);
 	
-	
         var is = t.getRequestBody();
 	BufferedImage image = ImageIO.read(is);
 	var width = image.getWidth();
@@ -59,8 +58,14 @@ public class ImageEffectorService implements HttpHandler {
     }
 
     public static void main(String... args) throws Exception {
-        HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext("/", new ImageEffectorService());
-        server.start();
+	if (args.length > 0) {
+	    var port = Integer.parseInt(args[0]);
+	    var server = HttpServer.create(new InetSocketAddress(port), 0);
+	    server.createContext("/", new ImageEffectorService());
+	    server.start();
+	    System.out.println("Start Service: " + server.getAddress());
+	} else {
+	    System.err.println("ImageEffectorService [portNumber]");
+	}
     }
 }
