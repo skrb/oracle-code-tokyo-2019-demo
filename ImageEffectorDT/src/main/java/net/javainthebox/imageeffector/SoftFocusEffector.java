@@ -33,17 +33,17 @@ public class SoftFocusEffector {
                     }
                 }
 
-                r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
-                g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
-                b /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
+                r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
+                g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
+                b /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
 
-                r = (((buffer[h*width + w] & 0x00FF0000) >> 1) & 0x00FF0000)
+                r = (((buffer[h*width + w] & 0x00FF0000) * 3/10) & 0x00FF0000)
 		    + ((r<<16) & 0x00FF0000);
                 r = r > 0x00FF0000 ? 0x00FF0000: r;    
-                g = (((buffer[h*width + w] & 0x0000FF00) >> 1) & 0x0000FF00)
+                g = (((buffer[h*width + w] & 0x0000FF00) * 3/10) & 0x0000FF00)
 		    +  ((g<<8) & 0x0000FF00);
                 g = g > 0x0000FF00 ? 0x0000FF00: g;    
-                b = (((buffer[h*width + w] & 0x000000FF) >> 1) & 0x000000FF)
+                b = (((buffer[h*width + w] & 0x000000FF) * 3/10) & 0x000000FF)
 		    +  (b & 0x000000FF);
                 b = b > 0x000000FF ? 0x000000FF: b;    
                 
@@ -99,17 +99,17 @@ public class SoftFocusEffector {
                 int g = vg.addAll();
                 int b = vb.addAll();
 		
-                r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
-                g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
-                b /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*2;
+                r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
+                g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
+                b /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
 
-                r = (((buffer[h*width + w] & 0x00FF0000) >> 1) & 0x00FF0000)
+                r = (((buffer[h*width + w] & 0x00FF0000) * 3/10) & 0x00FF0000)
 		    + ((r<<16) & 0x00FF0000);
                 r = r > 0x00FF0000 ? 0x00FF0000: r;    
-                g = (((buffer[h*width + w] & 0x0000FF00) >> 1) & 0x0000FF00)
+                g = (((buffer[h*width + w] & 0x0000FF00) * 3/10) & 0x0000FF00)
 		    +  ((g<<8) & 0x0000FF00);
                 g = g > 0x0000FF00 ? 0x0000FF00: g;    
-                b = (((buffer[h*width + w] & 0x000000FF) >> 1) & 0x000000FF)
+                b = (((buffer[h*width + w] & 0x000000FF) * 3/10) & 0x000000FF)
 		    +  (b & 0x000000FF);
                 b = b > 0x000000FF ? 0x000000FF: b;    
                 
