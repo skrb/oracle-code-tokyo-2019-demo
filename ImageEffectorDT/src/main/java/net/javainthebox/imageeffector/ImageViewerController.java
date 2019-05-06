@@ -8,14 +8,20 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class ImageViewerController implements Initializable {
@@ -45,6 +51,16 @@ public class ImageViewerController implements Initializable {
     private long totalDurationSeq = 0L;
     private long totalDurationVec = 0L;
 
+    @FXML
+    private void showContextMenu(ContextMenuEvent e) {
+        var item = new MenuItem("Quit");
+        item.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
+        item.setOnAction(event -> Platform.exit());
+
+        var menu = new ContextMenu(item);
+        menu.show((Node) e.getSource(), e.getX(), e.getY());
+    }
+    
     public void updateImageSeq(int index, Image image, long duration) {
         if (index > 0) {
             thumbSeqImageViews.get(index-1).setScaleX(1.0);
@@ -88,7 +104,7 @@ public class ImageViewerController implements Initializable {
         
         images = IntStream.range(0, 24)
                 .mapToObj(i -> {
-                    var image = new Image(this.getClass().getResource("image" + i + ".jpg").toString());
+                    var image = new Image(this.getClass().getResource("images/image" + i + ".jpg").toString());
                     ((ImageView) thumbSeqPane.getChildren().get(i)).setImage(image);
                     ((ImageView) thumbVecPane.getChildren().get(i)).setImage(image);
                     return image;
@@ -99,6 +115,9 @@ public class ImageViewerController implements Initializable {
             startButton.setVisible(false);
             service.start();
         });
+        
+        timeSeqLabel.setEffect(new DropShadow(2.0, 2.0, 2.0, Color.WHITE));
+        timeVecLabel.setEffect(new DropShadow(2.0, 2.0, 2.0, Color.WHITE));
     }
 
 }

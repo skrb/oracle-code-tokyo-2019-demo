@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="1024.0" prefWidth="1920.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.javainthebox.imageeffector.ImageViewerController">
+<AnchorPane id="AnchorPane" onContextMenuRequested="#showContextMenu" prefHeight="1024.0" prefWidth="1920.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.javainthebox.imageeffector.ImageViewerController">
    <children>
       <Pane prefHeight="600.0" prefWidth="900.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="400.0">
          <children>
@@ -72,8 +72,8 @@
             <ImageView fitHeight="160.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="690.0" AnchorPane.topAnchor="220.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="startButton" mnemonicParsing="false" style="-fx-font-size: 48;" text="Start" AnchorPane.leftAnchor="930.0" AnchorPane.topAnchor="500.0" />
-      <Label fx:id="timeSeqLabel" style="-fx-font-size: 48;" text="Sequential" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="900.0" />
-      <Label fx:id="timeVecLabel" style="-fx-font-size: 48;" text="Vector" AnchorPane.leftAnchor="990.0" AnchorPane.topAnchor="900.0" />
+      <Button fx:id="startButton" mnemonicParsing="false" prefWidth="240.0" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Start" AnchorPane.leftAnchor="840.0" AnchorPane.topAnchor="450.0" />
+      <Label fx:id="timeSeqLabel" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Sequential" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="900.0" />
+      <Label fx:id="timeVecLabel" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Vector" AnchorPane.leftAnchor="1000.0" AnchorPane.topAnchor="900.0" />
    </children>
 </AnchorPane>
