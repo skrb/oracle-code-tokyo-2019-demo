@@ -11,10 +11,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.List;
+import java.util.concurrent.Executors;
+
 import javax.imageio.ImageIO;
 import net.javainthebox.imageeffector.SoftFocusEffector;
 
 public class ImageEffectorService implements HttpHandler {
+	private static final int MAX_THREAD_NUM = 1024;
+
     
     public void handle(HttpExchange t) throws IOException {
 
@@ -62,6 +66,7 @@ public class ImageEffectorService implements HttpHandler {
 	    var port = Integer.parseInt(args[0]);
 	    var server = HttpServer.create(new InetSocketAddress(port), 0);
 	    server.createContext("/", new ImageEffectorService());
+	    server.setExecutor(Executors.newFixedThreadPool(MAX_THREAD_NUM));
 	    server.start();
 	    System.out.println("Start Service: " + server.getAddress());
 	} else {
