@@ -65,14 +65,14 @@ public class SoftFocusEffector {
                 for (int hh = -KERNEL_SIZE*2 ; hh <= KERNEL_SIZE*2; hh++) {
 		    var vector = IntVector.fromArray(SPECIES, buffer,
 				   (h + hh)*width + (w - KERNEL_SIZE*2));
-                    vr = vr.add(vector.and(0x00FF0000).shiftR(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftR(8));
+                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
+                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                    (h + hh)*width + (w - KERNEL_SIZE));
-                    vr = vr.add(vector.and(0x00FF0000).shiftR(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftR(8));
+                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
+                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vr = vr.add((buffer[(h+hh)*width + w] & 0x00FF0000) >> 16,
@@ -84,20 +84,20 @@ public class SoftFocusEffector {
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                                  (h + hh)*width + (w + 1));
-                    vr = vr.add(vector.and(0x00FF0000).shiftR(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftR(8));
+                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
+                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                                  (h + hh)*width + (w + 1 + KERNEL_SIZE));
-                    vr = vr.add(vector.and(0x00FF0000).shiftR(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftR(8));
+                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
+                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
                     vb = vb.add(vector.and(0x000000FF));
 		}
 
-		int r = vr.addAll();
-                int g = vg.addAll();
-                int b = vb.addAll();
+		int r = vr.addLanes();
+                int g = vg.addLanes();
+                int b = vb.addLanes();
 		
                 r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
                 g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
