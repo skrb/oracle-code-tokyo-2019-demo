@@ -17,7 +17,8 @@ public class SoftFocusEffector {
     }
 
     public static int[] softenLoop(int[] buffer, int width, int height) {
-
+	int result[] = new int[width*height];
+	
         for (int h = KERNEL_SIZE*2; h < height - KERNEL_SIZE*2; h++) {
             for (int w = KERNEL_SIZE*2; w < width - KERNEL_SIZE*2; w++) {
                 
@@ -47,14 +48,16 @@ public class SoftFocusEffector {
 		    +  (b & 0x000000FF);
                 b = b > 0x000000FF ? 0x000000FF: b;    
                 
-                buffer[h*width + w] = 0xFF000000 + r + g + b; 
+                result[h*width + w] = 0xFF000000 + r + g + b; 
             }
         }
 
-        return buffer;
+        return result;
     }
 
     public static int[] softenVector(int[] buffer, int width, int height) {
+	int result[] = new int[width*height];
+
 	for (int h = KERNEL_SIZE*2; h < height - KERNEL_SIZE*2; h++) {
             for (int w = KERNEL_SIZE*2; w < width - KERNEL_SIZE*2; w++) {
                 
@@ -113,10 +116,10 @@ public class SoftFocusEffector {
 		    +  (b & 0x000000FF);
                 b = b > 0x000000FF ? 0x000000FF: b;    
                 
-                buffer[h*width + w] = 0xFF000000 + r + g + b; 
+                result[h*width + w] = 0xFF000000 + r + g + b; 
             }
         }
 
-        return buffer;
+        return result;
     }
 }	

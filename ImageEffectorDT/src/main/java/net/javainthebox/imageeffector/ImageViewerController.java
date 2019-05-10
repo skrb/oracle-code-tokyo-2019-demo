@@ -54,11 +54,11 @@ public class ImageViewerController implements Initializable {
     @FXML
     private void showContextMenu(ContextMenuEvent e) {
         var item = new MenuItem("Quit");
-        item.setStyle("-fx-font-size: 48px; -fx-font-weight: bold;");
+        item.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         item.setOnAction(event -> Platform.exit());
 
         var menu = new ContextMenu(item);
-        menu.show((Node) e.getSource(), e.getX(), e.getY());
+        menu.show((Node) e.getSource(), e.getScreenX(), e.getScreenY());
     }
     
     public void updateImageSeq(int index, Image image, long duration) {
