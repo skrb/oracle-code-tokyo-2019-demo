@@ -17,9 +17,8 @@ import javax.imageio.ImageIO;
 import net.javainthebox.imageeffector.SoftFocusEffector;
 
 public class ImageEffectorService implements HttpHandler {
-	private static final int MAX_THREAD_NUM = 1024;
+	private static final int DEFAULT_THREAD_NUM = 8;
 
-    
     public void handle(HttpExchange t) throws IOException {
 
 	Headers headers = t.getRequestHeaders();
@@ -64,13 +63,17 @@ public class ImageEffectorService implements HttpHandler {
     public static void main(String... args) throws Exception {
 	if (args.length > 0) {
 	    var port = Integer.parseInt(args[0]);
+	    var threadNum = DEFAULT_THREAD_NUM;
+	    if (args.length > 1) {
+			threadNum = Integer.parseInt(args[1]);
+		}
 	    var server = HttpServer.create(new InetSocketAddress(port), 0);
 	    server.createContext("/", new ImageEffectorService());
-	    server.setExecutor(Executors.newFixedThreadPool(MAX_THREAD_NUM));
+	    server.setExecutor(Executors.newFixedThreadPool(threadNum));
 	    server.start();
 	    System.out.println("Start Service: " + server.getAddress());
 	} else {
-	    System.err.println("ImageEffectorService [portNumber]");
+	    System.err.println("ImageEffectorService [portNumber] ([threadNum:default=" + DEFAULT_THREAD_NUM + "])");
 	}
     }
 }
