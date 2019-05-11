@@ -2,11 +2,14 @@ package net.javainthebox.imageeffector;
 
 import jdk.incubator.vector.IntVector;
 import jdk.incubator.vector.VectorMask;
+import jdk.incubator.vector.VectorShape;
 import jdk.incubator.vector.VectorSpecies;
 
 public class SoftFocusEffector {
+//    private final static VectorSpecies<Integer> SPECIES
+//	= VectorSpecies.ofPreferred(int.class);
     private final static VectorSpecies<Integer> SPECIES
-	= VectorSpecies.ofPreferred(int.class);
+	= VectorSpecies.of(int.class, VectorShape.S_256_BIT);
     private final static int KERNEL_SIZE = SPECIES.bitSize()/32;
     private static final VectorMask<Integer> FIRST_TRUE_MASK;
 
