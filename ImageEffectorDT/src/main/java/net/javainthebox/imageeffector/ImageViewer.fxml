@@ -73,7 +73,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="startButton" mnemonicParsing="false" prefWidth="240.0" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Start" AnchorPane.leftAnchor="840.0" AnchorPane.topAnchor="450.0" />
-      <Label fx:id="timeSeqLabel" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Sequential" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="900.0" />
-      <Label fx:id="timeVecLabel" style="-fx-font-size: 48; -fx-font-weight: bold;" text="Vector" AnchorPane.leftAnchor="1000.0" AnchorPane.topAnchor="900.0" />
+      <Label fx:id="timeSeqLabel" style="-fx-text-fill: white; -fx-font-size: 48; -fx-font-weight: bold;" text="Sequential" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="900.0" />
+      <Label fx:id="timeVecLabel" style="-fx-text-fill: white; -fx-font-size: 48; -fx-font-weight: bold;" text="Vector" AnchorPane.leftAnchor="1000.0" AnchorPane.topAnchor="900.0" />
    </children>
 </AnchorPane>

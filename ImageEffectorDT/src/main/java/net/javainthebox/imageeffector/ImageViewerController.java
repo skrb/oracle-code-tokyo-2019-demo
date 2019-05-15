@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -116,8 +117,8 @@ public class ImageViewerController implements Initializable {
             service.start();
         });
         
-        timeSeqLabel.setEffect(new DropShadow(2.0, 2.0, 2.0, Color.WHITE));
-        timeVecLabel.setEffect(new DropShadow(2.0, 2.0, 2.0, Color.WHITE));
+	timeSeqLabel.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 10, 10, 0, 0));
+	timeVecLabel.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.BLACK, 10, 10, 0, 0));
     }
 
 }
