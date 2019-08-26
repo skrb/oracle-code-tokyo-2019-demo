@@ -4,13 +4,13 @@ import jdk.incubator.vector.IntVector;
 import jdk.incubator.vector.VectorMask;
 import jdk.incubator.vector.VectorShape;
 import jdk.incubator.vector.VectorSpecies;
+import static jdk.incubator.vector.VectorOperators.ADD;
+import static jdk.incubator.vector.VectorOperators.LSHR;
 
 public class SoftFocusEffector {
-//    private final static VectorSpecies<Integer> SPECIES
-//	= VectorSpecies.ofPreferred(int.class);
     private final static VectorSpecies<Integer> SPECIES
 	= VectorSpecies.of(int.class, VectorShape.S_256_BIT);
-    private final static int KERNEL_SIZE = SPECIES.bitSize()/32;
+    private final static int KERNEL_SIZE = SPECIES.vectorBitSize()/32;
     private static final VectorMask<Integer> FIRST_TRUE_MASK;
 
     static {
@@ -71,14 +71,14 @@ public class SoftFocusEffector {
                 for (int hh = -KERNEL_SIZE*2 ; hh <= KERNEL_SIZE*2; hh++) {
 		    var vector = IntVector.fromArray(SPECIES, buffer,
 				   (h + hh)*width + (w - KERNEL_SIZE*2));
-                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
+                    vr = vr.add(vector.and(0x00FF0000).lanewise(LSHR, 16));
+                    vg = vg.add(vector.and(0x0000FF00).lanewise(LSHR, 8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                    (h + hh)*width + (w - KERNEL_SIZE));
-                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
+                    vr = vr.add(vector.and(0x00FF0000).lanewise(LSHR, 16));
+                    vg = vg.add(vector.and(0x0000FF00).lanewise(LSHR, 8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vr = vr.add((buffer[(h+hh)*width + w] & 0x00FF0000) >> 16,
@@ -90,20 +90,20 @@ public class SoftFocusEffector {
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                                  (h + hh)*width + (w + 1));
-                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
+                    vr = vr.add(vector.and(0x00FF0000).lanewise(LSHR, 16));
+                    vg = vg.add(vector.and(0x0000FF00).lanewise(LSHR, 8));
                     vb = vb.add(vector.and(0x000000FF));
 
                     vector = IntVector.fromArray(SPECIES, buffer,
                                                  (h + hh)*width + (w + 1 + KERNEL_SIZE));
-                    vr = vr.add(vector.and(0x00FF0000).shiftRight(16));
-                    vg = vg.add(vector.and(0x0000FF00).shiftRight(8));
+                    vr = vr.add(vector.and(0x00FF0000).lanewise(LSHR, 16));
+                    vg = vg.add(vector.and(0x0000FF00).lanewise(LSHR, 8));
                     vb = vb.add(vector.and(0x000000FF));
 		}
 
-		int r = vr.addLanes();
-                int g = vg.addLanes();
-                int b = vb.addLanes();
+		int r = vr.reduceLanes(ADD);
+                int g = vg.reduceLanes(ADD);
+                int b = vb.reduceLanes(ADD);
 		
                 r /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
                 g /= (KERNEL_SIZE * 4 + 1)*(KERNEL_SIZE * 4 + 1)*10/7;
